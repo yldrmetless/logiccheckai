@@ -30,7 +30,14 @@ SECRET_KEY = "django-insecure-i@=5_^3gne1u(uok8=$b!b98942p%!)1+9-5bw#y(8!@7pym=9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+IS_ON_RENDER = "RENDER" in os.environ
+
+DEBUG = not IS_ON_RENDER
+
+if IS_ON_RENDER:
+    ALLOWED_HOSTS = ["logiccheckai.onrender.com", ".onrender.com"]
+else:
+    ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -81,10 +88,13 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 AUTH_USER_MODEL = "users.Users"
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
+if IS_ON_RENDER:
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -103,8 +113,6 @@ REST_FRAMEWORK = {
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-IS_ON_RENDER = "RENDER" in os.environ
 
 DATABASES = {
     "default": {
