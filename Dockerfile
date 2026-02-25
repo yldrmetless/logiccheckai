@@ -1,6 +1,6 @@
 FROM python:3.13-slim
 
-# Sistem bağımlılıklarını yükle (Postgres bağlantısı için gerekli)
+# Sistem bağımlılıklarını yükle
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     gcc \
@@ -16,5 +16,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Proje dosyalarını kopyala
 COPY . .
 
-# Django'yu başlat (Port 8000)
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Render 10000 portunu kullandığı için onu açıyoruz
+EXPOSE 10000
+
+# Hem migrate yapıp hem serverı başlatan komut
+# Canlıda gunicorn önerilir ama şimdilik runserver ile ayağa kaldıralım
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:10000"]
