@@ -1,9 +1,16 @@
 from django.urls import path
 
-from ideas.views import (BusinessPlanDetailView, BusinessPlanListView,
-                         BusinessPlanSoftDeleteView, GenerateBusinessPlanView,
-                         IdeaAnalysisView, IdeaDeleteView, IdeaDetailView,
-                         MyIdeasListView, UpdateReportStepsView)
+from ideas.views import (
+    BusinessPlanDetailView,
+    BusinessPlanListView,
+    BusinessPlanSoftDeleteView,
+    GenerateBusinessPlanView,
+    IdeaAnalysisView,
+    IdeaDeleteView,
+    IdeaDetailView,
+    MyIdeasListView,
+    UpdateReportStepsView,
+)
 
 urlpatterns = [
     path("analyze-create/", IdeaAnalysisView.as_view(), name="idea-analysis"),

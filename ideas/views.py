@@ -7,10 +7,12 @@ from rest_framework.views import APIView
 
 from ideas.models import AnalysisReport, BusinessIdea, BusinessPlan
 from ideas.paginations import Pagination10
-from ideas.serializers import (BusinessIdeaListSerializer,
-                               BusinessIdeaSerializer,
-                               BusinessPlanDetailSerializer,
-                               BusinessPlanListSerializer)
+from ideas.serializers import (
+    BusinessIdeaListSerializer,
+    BusinessIdeaSerializer,
+    BusinessPlanDetailSerializer,
+    BusinessPlanListSerializer,
+)
 from ideas.services import BusinessPlanService, MarketAnalysisService
 
 # ideas/views.py
