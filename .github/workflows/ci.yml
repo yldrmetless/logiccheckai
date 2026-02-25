@@ -51,7 +51,7 @@ jobs:
         DB_HOST: localhost
         DB_PORT: 5432
         DJANGO_SETTINGS_MODULE: config.settings
-        SECRET_KEY: "temporary-secret-key-for-tests"
+        TAVILY_API_KEY: "mock-key-for-tests"
         GROQ_API_KEY: "mock-key-for-tests"
       run: |
         pytest --cov=. --cov-fail-under=70
