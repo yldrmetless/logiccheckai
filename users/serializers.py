@@ -1,0 +1,63 @@
+from django.conf import settings
+from rest_framework import serializers
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.tokens import RefreshToken
+
+from users.models import Users
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, min_length=8)
+
+    class Meta:
+        model = Users
+        fields = ("id", "username", "email", "password", "first_name", "last_name")
+
+    def validate_email(self, value: str):
+        if value and Users.objects.filter(email__iexact=value).exists():
+            raise serializers.ValidationError("This email is already in use.")
+        return value
+
+    def create(self, validated_data):
+        password = validated_data.pop("password")
+        user = Users(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
+
+
+class LoginSerializer(serializers.Serializer):
+    username_or_email = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        ident = attrs["username_or_email"].strip()
+        password = attrs["password"]
+
+        user = (
+            Users.objects.filter(username__iexact=ident).first()
+            or Users.objects.filter(email__iexact=ident).first()
+        )
+        if not user or not user.check_password(password):
+            raise AuthenticationFailed("The username/email or password is incorrect.")
+        if not user.is_active:
+            raise AuthenticationFailed("This user is inactive.")
+
+        refresh = RefreshToken.for_user(user)
+        access = refresh.access_token
+
+        expires_minutes = int(
+            settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"].total_seconds() // 60
+        )
+
+        return {
+            "access_token": str(access),
+            "refresh_token": str(refresh),
+            "expires_time": expires_minutes,
+        }
+
+
+class MyProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        fields = ("username", "first_name", "last_name", "email")

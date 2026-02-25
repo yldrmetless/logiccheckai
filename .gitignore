@@ -1,0 +1,44 @@
+# Python derleme dosyaları
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Sanal ortam (Virtual Environment)
+venv/
+env/
+.env/
+ENV/
+
+# Django hassas ve yerel dosyalar
+db.sqlite3
+db.sqlite3-journal
+.env
+local_settings.py
+
+# Medya ve Statik dosyalar
+# (Statik dosyalar genellikle collectstatic ile oluşturulduğu için ignore edilir)
+static/
+staticfiles/
+media/
+
+# IDE / Editör özel dosyaları
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# İşletim sistemi dosyaları
+.DS_Store
+Thumbs.db
+
+# Test ve Raporlama
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/

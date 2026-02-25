@@ -1,0 +1,12 @@
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+# Kullanılacak kural setleri: 
+# E: pycodestyle, F: Pyflakes, I: isort, UP: pyupgrade
+select = ["E", "F", "I", "UP", "N"]
+ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["logiccheckai", "ideas", "users"]
